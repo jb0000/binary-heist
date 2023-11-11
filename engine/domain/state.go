@@ -4,9 +4,9 @@ type Cell struct {
 	isPassable bool
 	contains   map[string]string
 }
-type Blueprint [][]cell
+type Level [][]Cell
 type State struct {
-	level blueprint
+	Blueprint Level
 }
 type Coord struct {
 	x int
