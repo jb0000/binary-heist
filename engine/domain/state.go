@@ -1,10 +1,10 @@
 package domain
 
-type cell struct {
+type Cell struct {
 	isPassable bool
 	contains map[string]string
 }
-type blueprint [][]cell
-type state struct{
+type Blueprint [][]cell
+type State struct{
 	level blueprint
 }
