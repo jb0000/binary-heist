@@ -7,7 +7,7 @@ import (
 )
 
 func Test_DefaultLoader_Load(t *testing.T) {
-	loader := DefaultLoader{}
+	loader := NewDefaultLoader()
 
 	state := loader.Load()
 

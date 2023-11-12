@@ -6,10 +6,14 @@ import (
 	"github.com/jb0000/binary-heist/engine/domain"
 )
 
-type DefaultLoader struct {
+type defaultLoader struct {
 }
 
-func (d DefaultLoader) Load() domain.State {
+func NewDefaultLoader() defaultLoader {
+	return defaultLoader{}
+}
+
+func (d defaultLoader) Load() domain.State {
 	layout := `
  XXXXXXX
  X     X
