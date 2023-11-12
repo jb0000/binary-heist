@@ -36,8 +36,10 @@ func levelFromString(layout string) domain.Level {
 
 	bp := initLevel(maxX, len(rows))
 
-	_ = getPassableCoordsFromRows(rows)
+	coords = getPassableCoordsFromRows(rows)
 
+	bp = makeRoomsPassable(bp, coords)
+	
 	return bp
 }
 
@@ -52,6 +54,13 @@ func getPassableCoordsFromRows(rows []string) []domain.Coord {
 	}
 
 	return coords
+}
+
+func makeRoomsPassable(bp domain.Blueprint, coords []domain.Coord)domain.Blueprint{
+ for _, coord := range choords{
+   bp[coord.X][coord.Y].IsPassable = true
+ }
+ return bp
 }
 
 func initLevel(x, y int) domain.Level {
