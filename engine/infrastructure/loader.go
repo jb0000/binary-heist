@@ -1,4 +1,4 @@
-package loader
+package infrastructur
 
 import (
 	"strings"

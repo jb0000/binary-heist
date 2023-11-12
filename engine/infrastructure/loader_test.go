@@ -1,4 +1,4 @@
-package loader
+package infrastructure
 
 import (
 	"testing"
