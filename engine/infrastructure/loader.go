@@ -1,4 +1,4 @@
-package infrastructur
+package infrastructure
 
 import (
 	"strings"
@@ -6,23 +6,31 @@ import (
 	"github.com/jb0000/binary-heist/engine/domain"
 )
 
-type defaultLoader struct {
+type configLoader struct {
+	config Config
 }
 
-func NewDefaultLoader() defaultLoader {
-	return defaultLoader{}
-}
-
-func (d defaultLoader) Load() domain.State {
-	layout := `
+/* `
  XXXXXXX
  X     X
  X  XXXX
 XX  X
  X  X
  X  X
- XXXX`
-	bp := levelFromString(layout)
+ XXXX` */
+
+type Config struct {
+	layout string
+}
+
+func NewConfigLoader(cfg Config) configLoader {
+	return configLoader{
+		config: cfg,
+	}
+}
+
+func (d configLoader) Load() domain.State {
+	bp := levelFromString(d.config.layout)
 
 	return domain.State{
 		Blueprint: bp,
@@ -40,19 +48,19 @@ func levelFromString(layout string) domain.Level {
 
 	bp := initLevel(maxX, len(rows))
 
-	coords = getPassableCoordsFromRows(rows)
+	coords := getPassableCoordsFromRows(rows)
 
 	bp = makeRoomsPassable(bp, coords)
-	
+
 	return bp
 }
 
 func getPassableCoordsFromRows(rows []string) []domain.Coord {
 	var coords []domain.Coord
-	for y, row := range rows {
-		for x, cell := range row {
-			if cell != ' ' {
-				coords = append(coords, domain.Coord{x, y})
+	for x, row := range rows {
+		for y, cell := range row {
+			if cell == ' ' {
+				coords = append(coords, domain.NewCoord(x, y))
 			}
 		}
 	}
@@ -60,17 +68,17 @@ func getPassableCoordsFromRows(rows []string) []domain.Coord {
 	return coords
 }
 
-func makeRoomsPassable(bp domain.Blueprint, coords []domain.Coord)domain.Blueprint{
- for _, coord := range choords{
-   bp[coord.X][coord.Y].IsPassable = true
- }
- return bp
+func makeRoomsPassable(bp domain.Level, coords []domain.Coord) domain.Level {
+	for _, coord := range coords {
+		bp[coord.X][coord.Y].IsPassable = true
+	}
+	return bp
 }
 
 func initLevel(x, y int) domain.Level {
-	bp := make(domain.Level, x)
-	for i := x - 1; i >= 0; i-- {
-		bp[i] = make([]domain.Cell, y)
+	bp := make(domain.Level, y)
+	for i := y - 1; i >= 0; i-- {
+		bp[i] = make([]domain.Cell, x)
 	}
 
 	return bp
